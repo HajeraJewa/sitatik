@@ -10,7 +10,7 @@ class PerangkatDaerahController extends Controller
 {
   public function index()
   {
-    $opds = PerangkatDaerah::latest()->get();
+    $opds = PerangkatDaerah::orderBy('kode_opd', 'asc')->get();
     return view('perangkat_daerah.index', compact('opds'));
   }
 

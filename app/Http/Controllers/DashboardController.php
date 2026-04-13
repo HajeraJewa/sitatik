@@ -9,27 +9,33 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // 1. Filter hanya pengguna dengan role 'operator'
-        // Akun admin tidak akan ditarik ke dalam koleksi ini
-        $opds = User::where('role', 'operator')
-            ->with(['perangkatDaerah', 'recommendations'])
-            ->get();
+        $tahun = $request->tahun ?? date('Y');
+        $opd_id = $request->opd_id;
+
+        // QUERY USER OPD + FILTER TAHUN DI RELASI
+        $query = User::where('role', 'operator')
+            ->with(['perangkatDaerah', 'recommendations' => function ($q) use ($tahun) {
+                $q->whereYear('created_at', $tahun);
+            }]);
+
+        if ($opd_id) {
+            $query->where('id', $opd_id);
+        }
+
+        $opds = $query->get();
 
         $opd_selesai = 0;
         $opd_proses = 0;
         $opd_belum = 0;
 
-        // 2. Kalkulasi statistik progres hanya untuk operator
         foreach ($opds as $opd) {
             $total = $opd->recommendations->count();
             $approved = $opd->recommendations->where('status', 'approved')->count();
 
-            // Persentase dinamis per instansi
             $opd->persentase = $total > 0 ? round(($approved / $total) * 100) : 0;
 
-            // Klasifikasi status untuk monitoring
             if ($total > 0 && $total == $approved) {
                 $opd_selesai++;
             } elseif ($total > 0 && $approved < $total) {
@@ -39,18 +45,28 @@ class DashboardController extends Controller
             }
         }
 
-        // 3. Filter khusus untuk marker peta (Hanya operator yang memiliki koordinat)
         $opds_map = $opds->whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->values();
 
-        // 4. Ringkasan Statistik Global berdasarkan data operator
-        $total_rekomendasi = Recommendation::count();
+        // STATISTIK IKUT FILTER
+        $rekomQuery = Recommendation::whereYear('created_at', $tahun);
+
+        if ($opd_id) {
+            $rekomQuery->where('user_id', $opd_id);
+        }
+
+        $total_rekomendasi = $rekomQuery->count();
+
+        $tabel_aktif = Recommendation::where('status', 'approved')
+            ->whereYear('created_at', $tahun)
+            ->when($opd_id, fn($q) => $q->where('user_id', $opd_id))
+            ->count();
+
         $total_kategori = Category::count();
-        $tabel_aktif = Recommendation::where('status', 'approved')->count();
+
         $rata_progres = $opds->count() > 0 ? round($opds->avg('persentase'), 1) : 0;
 
-        // Mengirimkan variabel ke View
         return view('dashboard', compact(
             'opds',
             'opds_map',
@@ -60,8 +76,42 @@ class DashboardController extends Controller
             'opd_selesai',
             'opd_proses',
             'opd_belum',
-            'rata_progres'
+            'rata_progres',
+            'tahun'
         ));
+    }
+
+    public function filterOpd(Request $request)
+    {
+        $opd_id = $request->opd_id;
+
+        $query = User::where('role', 'operator')
+            ->with(['perangkatDaerah', 'recommendations']);
+
+        if ($opd_id) {
+            $query->where('id', $opd_id);
+        }
+
+        $opds = $query->get();
+
+        $result = [];
+
+        foreach ($opds as $opd) {
+            $total = $opd->recommendations->count();
+            $approved = $opd->recommendations->where('status', 'approved')->count();
+
+            $persentase = $total > 0 ? round(($approved / $total) * 100) : 0;
+
+            $result[] = [
+                'id' => $opd->id,
+                'nama' => $opd->perangkatDaerah->nama_opd ?? $opd->name,
+                'persentase' => $persentase,
+                'latitude' => $opd->latitude,
+                'longitude' => $opd->longitude,
+            ];
+        }
+
+        return response()->json($result);
     }
 
     public function destroy($id)

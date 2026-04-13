@@ -10,17 +10,19 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PerangkatDaerahController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\LandingController;
 
 // Jangan lupa buat controller ini atau arahkan ke yang sesuai
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+    //  Landing Page
+    Route::get('/', [LandingController::class, 'index'])->name('landing');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function () {
+
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/opd', [DashboardController::class, 'filterOpd']);
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
