@@ -26,6 +26,10 @@ return new class extends Migration {
             $table->enum('status', ['pending', 'approved', 'rejected', 'corrected'])->default('pending');
             $table->text('admin_note')->nullable(); // Pesan dari admin (opsional/koreksi)
             $table->timestamps();
+            // Di dalam file migration tabel recommendations
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            // ATAU jika kamu menggunakan nama manual:
+// $table->unsignedBigInteger('category_id');
         });
     }
 
@@ -36,4 +40,5 @@ return new class extends Migration {
     {
         Schema::dropIfExists('recommendations');
     }
+
 };

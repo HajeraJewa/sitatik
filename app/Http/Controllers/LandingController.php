@@ -9,12 +9,10 @@ class LandingController extends Controller
 {
     public function index()
     {
-        // 🔥 Redirect kalau sudah login
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
 
-        // dummy data (nanti bisa dari DB)
         $statistik = [
             'kategori' => 22,
             'data' => 87583,

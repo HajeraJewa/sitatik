@@ -20,21 +20,13 @@ class User extends Authenticatable
         'longitude',
     ];
 
-    /**
-     * Relasi ke Perangkat Daerah (Sudah Benar)
-     */
     public function perangkatDaerah()
     {
         return $this->belongsTo(PerangkatDaerah::class, 'perangkat_daerah_id');
     }
 
-    /**
-     * FIX FINAL: Tambahkan Relasi ke Recommendations
-     * Menghilangkan error "Call to undefined relationship [recommendations]"
-     */
     public function recommendations()
     {
-        // Satu User (Operator) bisa memiliki banyak pengajuan rekomendasi
         return $this->hasMany(Recommendation::class);
     }
 
@@ -49,5 +41,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function statisticData()
+    {
+        return $this->hasMany(StatisticData::class, 'user_id');
     }
 }

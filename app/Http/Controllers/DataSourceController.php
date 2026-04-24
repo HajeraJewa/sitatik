@@ -10,21 +10,36 @@ class DataSourceController extends Controller
 {
     public function index(Request $request)
     {
-        // Mengambil data tabel yang sudah disetujui
-        $query = Recommendation::where('status', 'approved')->with('user');
+        $query = Recommendation::where('status', 'approved')
+            ->with(['user.perangkatDaerah', 'category']);
 
-        // Fitur Filter berdasarkan OPD
-        if ($request->opd_id) {
+        // 2. Logika Filter OPD
+        if ($request->filled('opd_id')) {
             $query->where('user_id', $request->opd_id);
         }
 
-        $sources = $query->get();
-        // Memastikan model User terdeteksi untuk dropdown filter
-        $allOpd = User::where('role', 'operator')->get();
+        if ($request->filled('table_name')) {
 
-        return view('sumber.index', compact('sources', 'allOpd'));
+            $query->where('table_name', 'like', '%' . $request->table_name . '%');
+        }
+
+        if ($request->filled('kategori')) {
+            $query->where('category_id', $request->kategori);
+        }
+
+        $sources = $query->latest()->get();
+
+        $allOpd = User::where('role', 'operator')->with('perangkatDaerah')->get();
+
+        $allCategories = \App\Models\Category::all();
+
+        $listTables = Recommendation::where('status', 'approved')
+            ->select('table_name')
+            ->distinct()
+            ->get();
+
+        return view('sumber.index', compact('sources', 'allOpd', 'allCategories', 'listTables'));
     }
-
 
     public function store(Request $request)
     {
@@ -35,17 +50,19 @@ class DataSourceController extends Controller
 
         $referensi = Recommendation::findOrFail($request->recommendation_id);
 
-        // Menambah data baru sebagai baris baru di tabel
         $newSource = new Recommendation();
 
-        // Copy data wajib dari referensi agar tidak error
         $newSource->table_name = $referensi->table_name;
         $newSource->user_id = $referensi->user_id;
         $newSource->table_structure = $referensi->table_structure;
+
+        $newSource->category_id = $referensi->category_id;
+
         $newSource->category = $referensi->category;
+        // -------------------------
+
         $newSource->status = 'approved';
 
-        // Isi dengan nama sumber yang baru diinput
         $newSource->data_source_name = $request->nama_sumber;
 
         $newSource->save();

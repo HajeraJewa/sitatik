@@ -21,7 +21,6 @@ public function index(Request $request)
                 ->map(fn($num) => (int) $num)
                 ->toArray();
 
-            // padding supaya panjang sama
             return array_pad($parts, 5, 0);
     });
 

@@ -13,8 +13,6 @@ class RecommendationController extends Controller
 {
     public function index()
     {
-        // Admin melihat semua dengan relasi user & OPD, Operator melihat miliknya sendiri
-        $recommendations = auth()->user()->role == 'admin'
             ? Recommendation::with('user.perangkatDaerah')->latest()->get()
             : Recommendation::where('user_id', auth()->id())->latest()->get();
 
@@ -39,7 +37,6 @@ class RecommendationController extends Controller
             'status' => 'pending',
         ]);
 
-        // Pencatatan Log Aktivitas
         ActivityLog::record(
             'Buat Rekomendasi',
             'Operator mengajukan rekomendasi baru: ' . $rec->table_name
@@ -53,9 +50,8 @@ class RecommendationController extends Controller
         $rec = Recommendation::findOrFail($id);
 
         if ($status === 'approved') {
-            // PERBAIKAN: Tambahkan table_code ke dalam validasi agar bisa diproses
             $request->validate([
-                'table_code' => 'required|string|max:50', // Tambahkan baris ini
+                'table_code' => 'required|string|max:50',
                 'category' => 'required',
                 'start_date' => 'required|date',
                 'end_date' => 'required|date|after_or_equal:start_date',
@@ -63,7 +59,7 @@ class RecommendationController extends Controller
 
             $rec->update([
                 'status' => 'approved',
-                'table_code' => strtoupper($request->table_code), // Sekarang ini akan berfungsi
+                'table_code' => strtoupper($request->table_code),
                 'category' => $request->category,
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
@@ -75,7 +71,6 @@ class RecommendationController extends Controller
                 'Admin menyetujui rekomendasi: ' . $rec->table_name . ' dengan Kode: ' . strtoupper($request->table_code)
             );
         } else {
-            // Logika untuk status ditolak/dikoreksi tetap sama
             $rec->update([
                 'status' => $status,
                 'admin_note' => $request->admin_note,
@@ -94,7 +89,6 @@ class RecommendationController extends Controller
     {
         $rec = Recommendation::findOrFail($id);
 
-        // Proteksi akses operator
         if ($rec->user_id !== auth()->id() || $rec->status === 'approved') {
             abort(403, 'Aksi tidak diizinkan.');
         }
@@ -108,7 +102,7 @@ class RecommendationController extends Controller
             'table_name' => $request->table_name,
             'table_structure' => $request->table_structure,
             'description' => $request->description,
-            'status' => 'pending', // Kembali ke pending untuk dicek Admin
+            'status' => 'pending',
         ]);
 
         ActivityLog::record(
@@ -121,7 +115,6 @@ class RecommendationController extends Controller
 
     public function exportPdf($id)
     {
-        // Eager load perangkatDaerah untuk data instansi di PDF
         $rec = Recommendation::with('user.perangkatDaerah')->findOrFail($id);
 
         $data = [
@@ -130,8 +123,6 @@ class RecommendationController extends Controller
             'rec' => $rec,
             'columns' => explode(',', $rec->table_structure)
         ];
-
-        // Catat log cetak
         ActivityLog::record('Cetak PDF', 'Mendownload dokumen PDF rekomendasi: ' . $rec->table_name);
 
         $pdf = Pdf::loadView('recommendations.pdf', $data);

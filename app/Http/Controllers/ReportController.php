@@ -7,7 +7,6 @@ use App\Models\PerangkatDaerah;
 use App\Models\Recommendation;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-// Tambahkan import untuk Excel
 use App\Exports\SitatikExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -21,11 +20,10 @@ class ReportController extends Controller
     public function generate(Request $request)
     {
         $type = $request->type;
-        $format = $request->format; // Menangkap input format (pdf/excel)
+        $format = $request->format;
         $data = [];
         $view = '';
 
-        // Logika pengambilan data tetap sama
         if ($type == 'pengguna') {
             $data = User::with('perangkatDaerah')->where('role', 'operator')->get();
             $view = 'reports.pdf_pengguna';
@@ -40,12 +38,9 @@ class ReportController extends Controller
             $view = 'reports.pdf_rekomendasi';
         }
 
-        // LOGIKA DOWNLOAD EXCEL
         if ($format == 'excel') {
             return Excel::download(new SitatikExport($data, $type), 'Laporan_' . $type . '_' . now()->format('dmy') . '.xlsx');
         }
-
-        // LOGIKA DOWNLOAD PDF (Default)
         $pdf = Pdf::loadView($view, compact('data'))
             ->setPaper('a4', 'landscape');
 

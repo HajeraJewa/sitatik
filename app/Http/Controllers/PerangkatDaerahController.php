@@ -21,16 +21,13 @@ class PerangkatDaerahController extends Controller
       'nama_opd' => 'required',
     ]);
 
-    // FIX 1: Tentukan tipe aksi berdasarkan ada tidaknya ID
     $actionType = $request->id ? 'Update' : 'Tambah';
 
-    // FIX 2: Simpan ke dalam variabel agar data bisa dipanggil untuk log
     $opd = PerangkatDaerah::updateOrCreate(
       ['id' => $request->id],
       $request->only('kode_opd', 'nama_opd', 'alias_opd')
     );
 
-    // FIX 3: Gunakan variabel yang sudah didefinisikan
     ActivityLog::record(
       $actionType . ' Perangkat Daerah',
       "Admin melakukan $actionType data instansi: " . $opd->nama_opd . " (" . $opd->kode_opd . ")"
@@ -43,7 +40,6 @@ class PerangkatDaerahController extends Controller
   {
     $opd = PerangkatDaerah::findOrFail($id);
 
-    // FIX 4: Catat log sebelum data benar-benar dihapus
     ActivityLog::record(
       'Hapus Perangkat Daerah',
       "Admin menghapus data instansi: " . $opd->nama_opd

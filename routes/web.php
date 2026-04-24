@@ -15,10 +15,10 @@ use App\Http\Controllers\LandingController;
 // Jangan lupa buat controller ini atau arahkan ke yang sesuai
 use Illuminate\Support\Facades\Route;
 
-    //  Landing Page
-    Route::get('/', [LandingController::class, 'index'])->name('landing');
+//  Landing Page
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
-    Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -50,12 +50,18 @@ use Illuminate\Support\Facades\Route;
     Route::get('/statistics/{id}/export-excel', [StatisticController::class, 'exportExcel'])->name('statistics.export-excel');
     Route::get('/statistics/{id}/export-pdf', [StatisticController::class, 'exportPdf'])->name('statistics.export-pdf');
     Route::post('/statistics/send-satu-data/{id}', [StatisticController::class, 'sendToSatuData'])->name('statistics.send-satu-data');
+    Route::post('/statistics/send-semua-data', [StatisticController::class, 'sendAllToSatuData'])->name('statistics.send-semua-data');
+    Route::delete('/statistics/{id}', [StatisticController::class, 'destroyData'])->name('statistics.destroy-data');
+    // Pastikan namanya persis 'statistics.finalize'
+    Route::post('/statistics/finalize/{id}', [StatisticController::class, 'finalize'])->name('statistics.finalize');
+
 
     // Menampilkan halaman daftar sumber data
     Route::get('/sources', [DataSourceController::class, 'index'])->name('sources.index');
     // Menyimpan sumber data yang baru diinput
     Route::post('/sources/store', [DataSourceController::class, 'store'])->name('sources.store');
     Route::delete('/sources/{id}', [DataSourceController::class, 'destroy'])->name('sources.destroy');
+    Route::put('/sources/{id}', [App\Http\Controllers\DataSourceController::class, 'update'])->name('sources.update');
 
     // Kategori
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
