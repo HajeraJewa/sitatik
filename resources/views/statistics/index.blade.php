@@ -25,6 +25,7 @@
         <div class="flex-1 max-w-[1600px] mx-auto w-full flex flex-col space-y-4">
 
             {{-- HEADER & FILTER --}}
+            {{-- HEADER & FILTER --}}
             <div class="mt-4 bg-white px-6 py-4 rounded-2xl border shadow-sm">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <div>
@@ -33,16 +34,26 @@
                     </div>
                     <div class="flex items-center space-x-2">
                         <form action="{{ route('statistics.index') }}" method="GET" class="flex items-center space-x-2">
+                            {{-- Filter OPD --}}
                             <select name="opd_id" onchange="this.form.submit()" class="appearance-none bg-slate-100 border border-gray-200 text-xs px-3 py-1.5 pr-8 rounded-lg focus:outline-none">
-                                <option value="">OPD</option>
+                                <option value="">Semua OPD</option>
                                 @foreach ($allOpd as $opd)
                                     <option value="{{ $opd->id }}" {{ request('opd_id') == $opd->id ? 'selected' : '' }}>
                                         {{ $opd->perangkatDaerah->nama_opd ?? $opd->name }}
                                     </option>
                                 @endforeach
                             </select>
-                            {{-- ... Filter Tahun & Kategori tetap sama ... --}}
-                            <a href="{{ route('statistics.index') }}" class="bg-rose-50 text-rose-600 px-4 py-1.5 rounded-lg text-xs font-medium transition"> Reset </a>
+
+                            {{-- Filter Tahun --}}
+                            <select name="tahun" onchange="this.form.submit()" class="appearance-none bg-slate-100 border border-gray-200 text-xs px-3 py-1.5 pr-8 rounded-lg focus:outline-none">
+                                @foreach (range(date('Y'), 2024) as $year)
+                                    <option value="{{ $year }}" {{ request('tahun', date('Y')) == $year ? 'selected' : '' }}>
+                                        Tahun {{ $year }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <a href="{{ route('statistics.index') }}" class="bg-rose-50 text-rose-600 px-4 py-1.5 rounded-lg text-xs font-medium transition hover:bg-rose-100"> Reset </a>
                         </form>
 
                         @if (auth()->user()->role == 'operator')

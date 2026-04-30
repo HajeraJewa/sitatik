@@ -33,7 +33,7 @@
                                 {{-- TAMPILAN KODE --}} <td class="px-6 py-4">
                                     @if (!empty($rec->table_code))
                                         <span
-                                            class="bg-slate-800 text-white text-[10px] font-black px-2 py-1 rounded shadow-sm">
+                                            class="bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded shadow-sm">
                                             {{ $rec->table_code }} </span>
                                     @else
                                         <span

@@ -49,7 +49,7 @@ lat='';
 lng='';
 actionUrl='{{ route('users.store') }}';
 "
-                        class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-emerald-700 transition">
+                        class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-blue-700 transition">
                         + Tambah
                     </button>
 
@@ -175,7 +175,7 @@ deleteUrl='{{ route('users.destroy', $user->id) }}';
 
             <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl" @click.away="openModal=false">
 
-                <div class="p-6 bg-emerald-600 text-white font-semibold text-sm flex justify-between">
+                <div class="p-6 bg-blue-600 text-white font-semibold text-sm flex justify-between">
 
                     <span x-text="isEdit ? 'Edit Pengguna' : 'Tambah Pengguna'"></span>
 
@@ -221,7 +221,7 @@ deleteUrl='{{ route('users.destroy', $user->id) }}';
                     </div>
 
                     <button type="submit"
-                        class="w-full bg-emerald-600 text-white py-2.5 rounded-xl text-xs font-semibold hover:bg-emerald-700 transition">
+                        class="w-full bg-blue-600 text-white py-2.5 rounded-xl text-xs font-semibold hover:bg-blue-700 transition">
                         Simpan
                     </button>
 

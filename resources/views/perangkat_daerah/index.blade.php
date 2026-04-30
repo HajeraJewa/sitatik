@@ -28,7 +28,7 @@
                     </div>
 
                     <button @click="openModal=true; id=''; kode=''; nama=''; alias='';"
-                        class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-emerald-700 transition">
+                        class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-blue-700 transition">
                         + Tambah
                     </button>
 

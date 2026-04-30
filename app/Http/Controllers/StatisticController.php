@@ -18,22 +18,22 @@ class StatisticController extends Controller
         $query = Recommendation::where('status', 'approved')
             ->with(['statisticData', 'user.perangkatDaerah']);
 
+        // Filter OPD
         if ($request->filled('opd_id')) {
             $query->where('user_id', $request->opd_id);
         }
 
+        // Filter Tahun
         if ($request->filled('tahun')) {
             $query->whereYear('start_date', $request->tahun);
         }
 
-        if ($request->filled('kategori')) {
-            $query->where('category', $request->kategori);
-        }
-
+        // Filter Search
         if ($request->filled('search')) {
             $query->where('table_name', 'like', '%' . $request->search . '%');
         }
 
+        // Logic Role
         if (auth()->user()->role == 'admin') {
             $allOpd = User::where('role', 'operator')->with('perangkatDaerah')->get();
         } else {

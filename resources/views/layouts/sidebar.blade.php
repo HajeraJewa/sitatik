@@ -45,21 +45,25 @@
                 <span class="text-sm">Sumber Data</span>
             </x-sidebar-link>
 
-            <x-sidebar-link href="{{ route('perangkat-daerah.index') }}" :active="request()->routeIs('perangkat-daerah.index')">
+            <x-sidebar-link href="{{ route('perangkat-daerah.index') }}"
+                :active="request()->routeIs('perangkat-daerah.index')">
                 <span class="text-sm">Perangkat Daerah</span>
             </x-sidebar-link>
 
             <div class="text-[9px] font-bold text-slate-500 uppercase px-3 pt-4 pb-1 tracking-wider">
-                Laporan & Pengguna
+                Rekomendasi & Laporan
             </div>
+
+            <x-sidebar-link href="{{ route('recommendations.index') }}"
+                :active="request()->routeIs('recommendations.index')">
+                <span class="text-sm">Rekomendasi</span>
+            </x-sidebar-link>
 
             <x-sidebar-link href="{{ route('reports.index') }}" :active="request()->routeIs('reports.index')">
                 <span class="text-sm">Cetak Laporan</span>
             </x-sidebar-link>
 
-            <x-sidebar-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
-                <span class="text-sm">Pengguna</span>
-            </x-sidebar-link>
+
         @endif
 
         {{-- OTHER --}}
@@ -67,8 +71,8 @@
             Lainnya
         </div>
 
-        <x-sidebar-link href="{{ route('recommendations.index') }}" :active="request()->routeIs('recommendations.index')">
-            <span class="text-sm">Rekomendasi</span>
+        <x-sidebar-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
+            <span class="text-sm">Pengguna</span>
         </x-sidebar-link>
 
         <x-sidebar-link href="{{ route('activity-logs.index') }}" :active="request()->routeIs('activity-logs.index')">
