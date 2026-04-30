@@ -1,7 +1,6 @@
 <x-app-layout>
     <x-slot name="header"> Data Statistik </x-slot>
 
-    {{-- Alpine.js: Tambahkan fungsi loadEditData untuk memetakan data ke form --}}
     <div class="h-[calc(100vh-64px)] bg-slate-100 flex flex-col px-4 pb-4" 
         x-data="{ 
             openInput: false, 
@@ -96,9 +95,9 @@
                                     {{-- KOLOM STATUS --}}
                                     <td class="px-4 py-4 text-center border-r">
                                         @if($isFinal)
-                                            <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm">FIXED</span>
+                                            <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm">SELESAI</span>
                                         @elseif($dataEntry)
-                                            <span class="bg-amber-100 text-amber-700 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm">DRAFT</span>
+                                            <span class="bg-amber-100 text-amber-700 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm">DRAF</span>
                                         @else
                                             <span class="text-slate-300 text-[9px] font-bold italic tracking-tighter">BELUM ISI</span>
                                         @endif

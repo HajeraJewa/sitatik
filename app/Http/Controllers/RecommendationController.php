@@ -11,8 +11,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class RecommendationController extends Controller
 {
-    public function index()
+public function index()
     {
+        $recommendations = auth()->user()->role == 'admin'
             ? Recommendation::with('user.perangkatDaerah')->latest()->get()
             : Recommendation::where('user_id', auth()->id())->latest()->get();
 
