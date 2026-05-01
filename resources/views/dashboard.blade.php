@@ -285,6 +285,7 @@ function showOPDDetail(id) {
 function closeDetail() {
     document.getElementById('opd-detail').classList.add('opacity-0', 'pointer-events-none', 'translate-x-4');
     document.getElementById('opd-list-container').classList.remove('opacity-0', '-translate-x-4');
+    window.map.flyTo([-0.8917, 119.8707], 10, { duration: 1.5 });
 }
 
 function focusOPD(lat, lng, id) {
