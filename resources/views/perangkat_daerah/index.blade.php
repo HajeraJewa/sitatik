@@ -153,7 +153,7 @@ deleteUrl='{{ route('perangkat-daerah.destroy', $opd->id) }}';
 
             <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl" @click.away="openModal=false">
 
-                <div class="p-6 bg-emerald-600 text-white font-semibold text-sm flex justify-between">
+                <div class="p-6 bg-blue-600 text-white font-semibold text-sm flex justify-between">
 
                     <span x-text="id ? 'Edit Perangkat Daerah' : 'Tambah Perangkat Daerah'"></span>
 
@@ -195,7 +195,7 @@ deleteUrl='{{ route('perangkat-daerah.destroy', $opd->id) }}';
                     </div>
 
                     <button type="submit"
-                        class="w-full bg-emerald-600 text-white py-2.5 rounded-xl text-xs font-semibold hover:bg-emerald-700 transition">
+                        class="w-full bg-blue-600 text-white py-2.5 rounded-xl text-xs font-semibold hover:bg-blue-700 transition">
                         Simpan
                     </button>
 
