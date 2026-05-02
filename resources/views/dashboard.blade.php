@@ -274,7 +274,7 @@ function showOPDDetail(id) {
                 </div>
             </div>
 
-            {{-- AREA SCROLL DETAIL (Dibuat Maksimal) --}}
+            {{-- AREA SCROLL DETAIL --}}
             <div class="flex-1 overflow-y-auto custom-scrollbar pr-1 pb-10">
                 <p class="text-[8px] font-bold text-slate-400 mb-2 uppercase tracking-widest px-1">Daftar Rincian Tabel Statistik</p>
                 ${tabelHtml}
@@ -285,7 +285,7 @@ function showOPDDetail(id) {
 function closeDetail() {
     document.getElementById('opd-detail').classList.add('opacity-0', 'pointer-events-none', 'translate-x-4');
     document.getElementById('opd-list-container').classList.remove('opacity-0', '-translate-x-4');
-    window.map.flyTo([-0.8917, 119.8707], 10, { duration: 1.5 });
+    window.map.flyTo([-0.8917, 119.8707], 13, { duration: 1.5 });
 }
 
 function focusOPD(lat, lng, id) {

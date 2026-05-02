@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header"> Profile </x-slot>
+    <x-slot name="header"> Profil </x-slot>
 
     <div class="h-[calc(100vh-64px)] bg-slate-100 flex flex-col px-4 pb-6">
 
@@ -8,7 +8,7 @@
             {{-- HEADER --}}
             <div class="mt-4">
                 <h2 class="text-2xl font-bold text-slate-800 uppercase tracking-tight">
-                    Profile
+                    Profil
                 </h2>
                 <p class="text-sm text-slate-500 mt-1">
                     Kelola informasi akun dan keamanan
