@@ -30,12 +30,13 @@
             </div>
 
             {{-- DELETE ACCOUNT --}}
+            @if(auth()->user()->role === 'admin')
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <div class="max-w-xl">
                     @include('profile.partials.delete-user-form')
                 </div>
             </div>
-
+            @endif
         </div>
 
     </div>

@@ -10,6 +10,9 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+    {{-- LOGO WEB --}}
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -73,8 +76,7 @@
                         Email
                     </label>
 
-                    <input type="email" name="email" placeholder="user@sultengprov.go.id" required autofocus
-                        class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-slate-200
+                    <input type="email" name="email" placeholder="user@sultengprov.go.id" required autofocus class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-slate-200
                         focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition
                         placeholder:text-slate-500">
                 </div>
@@ -94,8 +96,7 @@
                     </div>
 
                     <div class="relative mt-1">
-                        <input id="password" type="password" name="password" placeholder="••••••••" required
-                            class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-slate-200 pr-10
+                        <input id="password" type="password" name="password" placeholder="••••••••" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-slate-200 pr-10
                             focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition">
 
                         {{-- TOGGLE PASSWORD --}}
@@ -126,8 +127,7 @@
                 </div>
 
                 {{-- BUTTON --}}
-                <button type="submit"
-                    class="w-full bg-blue-400 hover:bg-blue-300 text-slate-900 py-3 rounded-xl text-sm font-semibold
+                <button type="submit" class="w-full bg-blue-400 hover:bg-blue-300 text-slate-900 py-3 rounded-xl text-sm font-semibold
                     transition shadow-lg shadow-blue-500/20 active:scale-[0.98]">
                     Masuk
                 </button>
