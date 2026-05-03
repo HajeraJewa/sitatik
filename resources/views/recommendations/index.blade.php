@@ -57,7 +57,9 @@
                                 </td>
                                 @if (auth()->user()->role == 'admin')
                                     <td class="px-6 py-4 uppercase font-bold text-slate-500 text-[10px]">
-                                        {{ $rec->category ?? 'Belum Diklasifikasi' }} </td>
+                                        {{-- Mengambil Nama Kategori dari Tabel Categories via Relasi --}}
+                                        {{ $rec->category->nama_kategori ?? 'Belum Diklasifikasi' }} 
+                                    </td>
                                 @endif
                                 <td class="px-6 py-4 text-[10px]">
                                     @if ($rec->status == 'approved')
@@ -161,8 +163,10 @@
                                                         required>
                                                         <option value="">-- PILIH KATEGORI --</option>
                                                         @foreach ($categories as $cat)
-                                                            <option value="{{ $cat->nama_kategori }}">
-                                                                {{ $cat->nama_kategori }} </option>
+                                                            {{-- VALUE harus ID ($cat->id) agar database tidak Error Invalid Integer --}}
+                                                            <option value="{{ $cat->id }}">
+                                                                {{ $cat->nama_kategori }} 
+                                                            </option>
                                                         @endforeach
                                                     </select> </div>
                                                 <div class="grid grid-cols-2 gap-3">

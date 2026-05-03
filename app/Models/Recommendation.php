@@ -30,6 +30,7 @@ class Recommendation extends Model
     }
     public function category()
     {
+        // Ini adalah 'jembatan' yang menghubungkan angka 11 ke nama "Kesehatan"
         return $this->belongsTo(Category::class, 'category_id');
     }
 }

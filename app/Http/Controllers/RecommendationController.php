@@ -11,11 +11,14 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class RecommendationController extends Controller
 {
-public function index()
+    // app/Http/Controllers/RecommendationController.php
+
+    public function index()
     {
+        // Tambahkan 'category' ke dalam fungsi with()
         $recommendations = auth()->user()->role == 'admin'
-            ? Recommendation::with('user.perangkatDaerah')->latest()->get()
-            : Recommendation::where('user_id', auth()->id())->latest()->get();
+            ? Recommendation::with(['user.perangkatDaerah', 'category'])->latest()->get()
+            : Recommendation::where('user_id', auth()->id())->with('category')->latest()->get();
 
         $categories = Category::all();
 
@@ -61,7 +64,7 @@ public function index()
             $rec->update([
                 'status' => 'approved',
                 'table_code' => strtoupper($request->table_code),
-                'category' => $request->category,
+                'category_id' => $request->category,
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
                 'admin_note' => $request->admin_note,
